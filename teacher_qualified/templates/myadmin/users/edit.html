@@ -1,0 +1,169 @@
+{% extends "myadmin/base.html" %}
+
+{% block nav-list %}
+
+<div class="well" style="padding: 8px 0;">
+<ul class="nav nav-list">
+    <li class="nav-header">
+        导航栏
+    </li>
+    <li>
+        <a href="{% url 'myadmin_index'%}"><i class="icon-home"></i> 首页</a>
+    </li>
+    <li class="nav-header">
+        管理员
+    </li>
+    <li >
+        <a href="{% url 'myadmin_vip_add' %}"><i class="icon-folder-open"></i> 添加管理员</a>
+    </li>
+    <li>
+
+        <a href="{% url 'myadmin_vip_edit' request.session.adminuser.no %}"><i class="icon-check"></i> 修改密码</a>
+    </li>
+    <li class="nav-header">
+        教师管理
+    </li>
+    <li class="active">
+        <a href="{% url 'myadmin_users_index' %}"><i class="icon-white  icon-folder-open"></i> 教师信息</a>
+    </li>
+    <li  >
+        <a href="{% url 'myadmin_users_add' %}"><i class="icon-check"></i> 添加教师</a>
+    </li>
+    <li class="nav-header">
+        课程管理
+    </li>
+    <li>
+        <a href="{% url 'myadmin_subject_index' %}"><i class="icon-envelope"></i> 课程信息</a>
+    </li>
+    <li>
+        <a href="{% url 'myadmin_subject_add' %}"><i class="icon-file"></i> 添加课程</a>
+    </li>
+    <li class="nav-header">
+        教学管理
+    </li>
+    <li>
+        <a href="{% url 'myadmin_teaching_index' %}"><i class="icon-user"></i> 教学信息</a>
+    </li>
+    <li>
+        <a href="{% url 'myadmin_teaching_add' %}"><i class="icon-cog"></i> 添加教学</a>
+    </li>
+    <li class="divider">
+    </li>
+    <li>
+		<a href="#" id="forget">Help</a>
+		<script type="text/javascript">
+			var btn = document.getElementById("forget");
+			btn.onclick=function(){
+				alert("请联系管理员 李金哲");
+			}
+		</script>
+    </li>
+</ul>
+</div><!-- 侧边导航结束 -->
+
+{% endblock %}
+
+
+{% block mainbody %}                
+    <h3>
+        教师信息管理
+    </h3>
+		{% for vo in user %}
+        <form id="edit-profile" action="{% url 'myadmin_users_update' vo.no %}" class="form-horizontal" method="post">
+            {% csrf_token %}
+            <fieldset>
+                <legend>编辑教师信息</legend>
+                <div class="control-group">
+                    <label class="control-label" for="input01">职工号：</label>
+                    <div class="controls">
+                        {{ vo.no }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input01">密码：</label>
+                    <div class="controls">
+                        <input type="password" name="password" class="input-xlarge" id="input01"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input01">重复密码：</label>
+                    <div class="controls">
+                        <input type="password" name="repassword" class="input-xlarge" id="input01"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input01">姓名：</label>
+                    <div class="controls">
+                        {{ vo.name }}
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="input01">学院：</label>
+                    <div class="controls">
+                        <select name="faculty">
+                            {% for list in typelist %}
+                                {% if vo.faculty == list.no %}
+                                    <option value="{{list.no}}" selected="selected">{{list.no}}--{{ list.name }}</option>
+                                {% else %}
+                                    <option value="{{list.no}}">{{list.no}}--{{ list.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="input01">性别：</label>
+                    <div class="controls">
+                        <input type="radio" name="sex" class="input-xlarge" id="input01" value="1"
+                        {% if vo.sex == '1' %}checked{% endif %} /> 男
+                        <input type="radio" name="sex" class="input-xlarge" id="input01" value="0"
+                        {% if vo.sex == '0' %}checked{% endif %} /> 女
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input01">年龄：</label>
+                    <div class="controls">
+                        <input type="text" name="age" class="input-xlarge" id="input01" value="{{ vo.age }}"/>
+                    </div>
+                </div>
+
+                 <div class="control-group">
+                    <label class="control-label" for="input01">职称：</label>
+                    <div class="controls">
+                        <select name="position">
+                            <option value="助教" >助教</option>
+                            <option value="讲师" >讲师</option>
+                            <option value="副教授" >副教授</option>
+                            <option value="教授">教授</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="input01">学历：</label>
+                    <div class="controls">
+                        <select name="degree">
+                            <option value="专科" >专科</option>
+                            <option value="本科" >本科</option>
+                            <option value="硕士研究生" >硕士研究生</option>
+                            <option value="博士研究生">博士研究生</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="input01">电话：</label>
+                    <div class="controls">
+                        <input type="text" name="phone" class="input-xlarge" id="input01" value="{{ vo.phone }}"/>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" >保存</button> <button type="reset" class="btn">重置</button>
+                </div>
+            </fieldset>
+        </form>
+		{% endfor %}
+{% endblock %}

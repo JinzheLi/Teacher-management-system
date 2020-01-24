@@ -1,0 +1,166 @@
+{% extends "myadmin/base.html" %}
+
+
+{% block nav-list %}
+
+<div class="well" style="padding: 8px 0;">
+<ul class="nav nav-list">
+    <li class="nav-header">
+        导航栏
+    </li>
+    <li class="active">
+        <a href="{% url 'myadmin_index'%}"><i class="icon-white icon-home"></i> 首页</a>
+    </li>
+    <li class="nav-header">
+        管理员
+    </li>
+    <li>
+        <a href="{% url 'myadmin_vip_add' %}"><i class="icon-folder-open"></i> 添加管理员</a>
+    </li>
+    <li>
+        <a href="{% url 'myadmin_vip_edit' request.session.adminuser.no %}"><i class="icon-check"></i> 修改密码</a>
+    </li>
+    <li class="nav-header">
+        教师管理
+    </li>
+    <li>
+        <a href="{% url 'myadmin_users_index' %}"><i class="icon-folder-open"></i> 教师信息</a>
+    </li>
+    <li>
+        <a href="{% url 'myadmin_users_add' %}"><i class="icon-check"></i> 添加教师</a>
+    </li>
+    <li class="nav-header">
+        课程管理
+    </li>
+    <li>
+        <a href="{% url 'myadmin_subject_index' %}"><i class="icon-envelope"></i> 课程信息</a>
+    </li>
+    <li>
+        <a href="{% url 'myadmin_subject_add' %}"><i class="icon-file"></i> 添加课程</a>
+    </li>
+    <li class="nav-header">
+        教学管理
+    </li>
+    <li>
+        <a href="{% url 'myadmin_teaching_index' %}"><i class="icon-user"></i> 教学信息</a>
+    </li>
+    <li>
+        <a href="{% url 'myadmin_teaching_add' %}"><i class="icon-cog"></i> 添加教学</a>
+    </li>
+    <li class="divider">
+    </li>
+    <li>
+		<a href="#" id="forget">Help</a>
+		<script type="text/javascript">
+			var btn = document.getElementById("forget");
+			btn.onclick=function(){
+				alert("请联系管理员 李金哲");
+			}
+		</script>
+    </li>
+</ul>
+</div><!-- 侧边导航结束 -->
+
+{% endblock %}
+
+{% block mainbody %}
+<h1>
+	　师资管理系统
+</h1>
+<div class="hero-unit">
+	<h2>
+		欢迎光临师资后台管理!
+	</h2>
+</div>
+<div class="well summary">
+	<div id="container" style="height: 500px"></div>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+	<script type="text/javascript">
+		var dom = document.getElementById("container");
+		var myChart = echarts.init(dom);
+		var app = {};
+		option = null;
+		option = {
+		// backgroundColor: '#2c343c',
+
+			title: {
+				text: '学院信息统计',
+				left: 'center',
+				top: 40,
+				textStyle: {
+					color: 'black'
+				}
+			},
+
+			tooltip : {
+				trigger: 'item',
+				formatter: "{a} <br/>{b} : {c} ({d}%)"
+			},
+
+			visualMap: {
+				show: false,
+				min: 80,
+				max: 600,
+				inRange: {
+					colorLightness: [0.4, 1]
+				}
+			},
+			series : [
+					{
+						name:'教师学院',
+						type:'pie',
+						radius : '55%',
+						center: ['50%', '50%'],
+						roseType: 'radius',
+						label: {
+							normal: {
+								textStyle: {
+									color: 'black'
+								}
+							}
+						},
+						labelLine: {
+							normal: {
+								lineStyle: {
+									color: 'black'
+								},
+								smooth: 0.2,
+								length: 10,
+								length2: 20
+							}
+						},
+						itemStyle: {
+							normal: {
+								color: 'pink',
+								shadowBlur: 200,
+								shadowColor: 'rgba(0, 0, 0, 0.5)'
+							}
+						},
+
+						animationType: 'scale',
+						animationEasing: 'elasticOut',
+						animationDelay: function (idx) {
+							return Math.random() * 200;
+						},
+						data:[
+							{% for data in list %}
+							{value:{{data.num}}, name:'{{data.faculty}}'},
+							{% endfor %}
+						].sort(function (a, b) { return a.value - b.value; })
+					}
+				]
+		};
+		if (option && typeof option === "object") {
+			myChart.setOption(option, true);
+		}
+   </script>
+</div>
+
+			
+{% endblock %}

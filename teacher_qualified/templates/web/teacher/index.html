@@ -1,0 +1,97 @@
+{% extends "web/base.html" %}
+{% block menubody %}
+
+<li>
+    <a href="{% url 'teacher_index' %}" class="active-menu waves-effect waves-dark"><i class="fa fa-edit"></i> 信息修改 </a>
+</li>
+
+<li>
+    <a href="{% url 'teacher_teaching' %}" class="waves-effect waves-dark"><i class="fa fa-table"></i> 课程表</a>
+</li>
+
+{% endblock %}
+
+{% block mainbody %}
+
+<div id="page-wrapper" >
+  <div class="header">
+                <h1 class="page-header">
+                     个人信息
+                </h1>
+                <ol class="breadcrumb">
+              <li><a href="#">教师信息</a></li>
+            </ol>
+
+</div>
+
+    <div id="page-inner">
+     <div class="row">
+     <div class="col-lg-12">
+     <div class="card">
+                <div class="card-action">
+                    教师信息
+                </div>
+                <div class="card-content">
+<form class="col s12">
+<div class="row" style="height: 60px; border-bottom: black solid;">
+<div class="input-field col s6">
+    <label class="control-label" for="input01" style="color: black">职工号：{{ data.no }}</label>
+
+</div>
+<div class="input-field col s6">
+    <label class="control-label" for="input01" style="color: black">教师姓名：{{ data.name }}</label>
+
+</div>
+</div>
+
+
+<div class="row" style="height: 60px; border-bottom: black solid;">
+    <div class="input-field col s6"  >
+
+        <label class="control-label" for="input01" style="color: black">年龄：{{ data.age }}</label>
+    </div>
+
+    <div class="input-field col s6">
+    <label class="control-label" for="input01" style="color: black">性别：{% if data.sex == '1' %}男{% else %}女{% endif %}</label>
+    </div>
+</div>
+
+
+<div class="row" style="height: 60px; border-bottom: black solid;">
+    <div class="input-field col s6">
+        <label class="control-label" for="input01" style="color: black">学院：{{ data.faculty }}</label>
+
+    </div>
+
+    <div class="input-field col s6">
+    <label class="control-label" for="input01" style="color: black">职位：{{ data.position }}</label>
+
+</div>
+</div>
+
+
+<div class="row" style="height: 60px; border-bottom: black solid;">
+    <div class="input-field col s6">
+        <label class="control-label" for="input01" style="color: black">学历：{{ data.degree }}</label>
+
+    </div>
+
+    <div class="input-field col s6">
+    <label class="control-label" for="input01" style="color: black">电话：{{ data.phone }}</label>
+
+</div>
+</div>
+</form>
+<a class="clearBoth" href="{% url 'teacher_edit' data.no %}">
+     <button type="submit" class="btn btn-primary">修改信息</button>
+</a>
+</div>
+</div>
+</div>
+</div>
+        <!-- /.col-lg-12 -->
+    </div>
+     <!-- /. PAGE INNER  -->
+    </div>
+
+{% endblock %}

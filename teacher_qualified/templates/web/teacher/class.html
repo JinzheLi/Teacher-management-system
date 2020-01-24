@@ -1,0 +1,111 @@
+{% extends "web/base.html" %}
+{% block menubody %}
+
+<li>
+    <a href="{% url 'teacher_index' %}" class="waves-effect waves-dark"><i class="fa fa-edit"></i> 信息修改 </a>
+</li>
+
+<li>
+    <a href="{% url 'teacher_teaching' %}" class="active-menu waves-effect waves-dark"><i class="fa fa-table"></i> 课程表</a>
+</li>
+
+{% endblock %}
+
+{% block mainbody %}
+
+<div id="page-wrapper" >
+  <div class="header">
+                <h1 class="page-header">
+                     课程安排
+                </h1>
+                <ol class="breadcrumb">
+              <li><a href="#">教授课程</a></li>
+            </ol>
+
+</div>
+
+<div id="page-inner">
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Advanced Tables -->
+            <div class="card">
+                <div class="card-action">
+                     课程安排
+                </div>
+                <div class="card-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>课程号</th>
+                                    <th>课程名</th>
+                                    <th>教室</th>
+                                    <th>学分</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for vo in list %}
+                                <tr class="odd gradeX">
+                                    <td>{{ vo.no }}</td>
+                                    <td>{{ vo.name }}</td>
+                                    <td>{{ vo.class }}</td>
+                                    <td class="center">{{ vo.score }}</td>
+                                </tr>
+		                        {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="pagination" style="margin-left: 30px">
+
+                    {% if pIndex > 1 %}
+                    <a href="{% url 'teacher_teaching'%}?&p={{pIndex|add:-1}}">上一页</a>
+                    {% endif %}
+                    &nbsp;&nbsp;第
+                    {% if pIndex > 1|add:2  %}
+                        <a href="{% url 'teacher_teaching'%}?&p=1">1</a>&nbsp;&nbsp;
+                        <b>···</b>&nbsp;&nbsp;
+                    {% endif %}
+                    {% for pindex in plist %}
+                        {% if pIndex == pindex %}
+                            <b style="color:red">{{pindex}}</b>&nbsp;&nbsp;
+                        {% else %}
+                            <a href="{% url 'teacher_teaching'%}?&p={{ pindex }}">{{ pindex }}</a>&nbsp;&nbsp;
+                        {% endif %}
+                    {% endfor %}
+                    {% if pIndex < maxpages|add:-2  %}
+                        <b>···</b>&nbsp;&nbsp;
+                        <a href="{% url 'teacher_teaching'%}?&p={{maxpages}}">{{maxpages}}</a>&nbsp;&nbsp;
+                    {% endif %}
+                    页&nbsp;&nbsp;
+                    {% if pIndex < maxpages %}
+                    <a href="{% url 'teacher_teaching'%}?&p={{pIndex|add:1}}">下一页</a>&nbsp;&nbsp;
+                    {% endif %}
+                    <br/><br/>
+                    第 <input type="text" id="txt" style="width: 40px" placeholder="{{pIndex}}"/>/{{maxpages}} 页&nbsp;&nbsp;
+                    <input type="button" value="点击跳转" onclick="Cmd()" />
+                    <br/><br/>
+
+                    <script>
+                        function Cmd(){
+                            if(!document.getElementById("txt").value){
+                                window.location.href = "{% url 'teacher_teaching'%}?&p={{pIndex}}";
+                            }
+                            else {
+                                window.location.href = "{% url 'teacher_teaching'%}?&p=" + document.getElementById("txt").value;
+                            }
+                        }
+                    </script>
+
+                </div>
+            </div>
+            <!--End Advanced Tables -->
+        </div>
+</div>
+
+</div>
+
+{% endblock %}

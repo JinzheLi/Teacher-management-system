@@ -1,0 +1,71 @@
+{% extends "myadmin/base.html" %}
+{% block nav-list %}
+
+<div class="well" style="padding: 8px 0;">
+<ul class="nav nav-list">
+    <li class="nav-header">
+        导航栏
+    </li>
+    <li>
+        <a href="{% url 'myadmin_index'%}"><i class="icon-home"></i> 首页</a>
+    </li>
+    <li class="nav-header">
+        管理员
+    </li>
+    <li>
+        <a href="{% url 'myadmin_vip_add' %}"><i class="icon-folder-open"></i> 添加管理员</a>
+    </li>
+    <li>
+        <a href="{% url 'myadmin_vip_edit' request.session.adminuser.no %}"><i class="icon-check"></i> 修改密码</a>
+    </li>
+    <li class="nav-header">
+        教师管理
+    </li>
+    <li>
+        <a href="{% url 'myadmin_users_index' %}"><i class="icon-folder-open"></i> 教师信息</a>
+    </li>
+    <li>
+        <a href="{% url 'myadmin_users_add' %}"><i class="icon-check"></i> 添加教师</a>
+    </li>
+    <li class="nav-header">
+        课程管理
+    </li>
+    <li>
+        <a href="{% url 'myadmin_subject_index' %}"><i class="icon-envelope"></i> 课程信息</a>
+    </li>
+    <li>
+        <a href="{% url 'myadmin_subject_add' %}"><i class="icon-file"></i> 添加课程</a>
+    </li>
+    <li class="nav-header">
+        教学管理
+    </li>
+    <li>
+        <a href="{% url 'myadmin_teaching_index' %}"><i class="icon-user"></i> 教学信息</a>
+    </li>
+    <li>
+        <a href="{% url 'myadmin_teaching_add' %}"><i class="icon-cog"></i> 添加教学</a>
+    </li>
+    <li class="divider">
+    </li>
+    <li>
+		<a href="#" id="forget">Help</a>
+		<script type="text/javascript">
+			var btn = document.getElementById("forget");
+			btn.onclick=function(){
+				alert("请联系管理员 李金哲");
+			}
+		</script>
+    </li>
+</ul>
+</div><!-- 侧边导航结束 -->
+
+{% endblock %}
+
+{% block mainbody %}                
+    <h2>
+        操作信息提示
+    </h2>
+    <h4>
+        {{ info }}
+    </h4>
+{% endblock %}

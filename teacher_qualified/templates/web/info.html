@@ -1,0 +1,29 @@
+{% extends "web/base.html" %}
+{% block menubody %}
+
+<li>
+    <a href="{% url 'teacher_index' %}" class="waves-effect waves-dark"><i class="fa fa-edit"></i> 信息修改 </a>
+</li>
+
+<li>
+    <a href="{% url 'teacher_teaching' %}" class="waves-effect waves-dark"><i class="fa fa-table"></i> 课程表</a>
+</li>
+
+{% endblock %}
+
+
+{% block mainbody %}
+<div id="page-wrapper" >
+<div class="header" style="height: 580px">
+    <br/><br/>
+    <h1 class="page-header" style="text-align: center">
+        操作信息提示
+    </h1>
+    <br/><br/>
+    <ol class="breadcrumb" style="text-align: center; margin-top: 50px">
+        <li><a href="#" style="font-size: 50px">{{ info }}</a></li>
+    </ol>
+
+    <br/><br/>
+</div>
+{% endblock %}

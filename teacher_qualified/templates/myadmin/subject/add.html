@@ -1,0 +1,107 @@
+{% extends "myadmin/base.html" %}
+
+{% block nav-list %}
+
+<div class="well" style="padding: 8px 0;">
+<ul class="nav nav-list">
+    <li class="nav-header">
+        导航栏
+    </li>
+    <li>
+        <a href="{% url 'myadmin_index'%}"><i class="icon-home"></i> 首页</a>
+    </li>
+    <li class="nav-header">
+        管理员
+    </li>
+    <li >
+        <a href="{% url 'myadmin_vip_add' %}"><i class="icon-folder-open"></i> 添加管理员</a>
+    </li>
+    <li>
+
+        <a href="{% url 'myadmin_vip_edit' request.session.adminuser.no %}"><i class="icon-check"></i> 修改密码</a>
+    </li>
+    <li class="nav-header">
+        教师管理
+    </li>
+    <li >
+        <a href="{% url 'myadmin_users_index' %}"><i class="icon-folder-open"></i> 教师信息</a>
+    </li>
+    <li  >
+        <a href="{% url 'myadmin_users_add' %}"><i class="icon-check"></i> 添加教师</a>
+    </li>
+    <li class="nav-header">
+        课程管理
+    </li>
+    <li >
+        <a href="{% url 'myadmin_subject_index' %}"><i class="icon-envelope"></i> 课程信息</a>
+    </li>
+    <li class="active">
+        <a href="{% url 'myadmin_subject_add' %}"><i class="icon-white  icon-file"></i> 添加课程</a>
+    </li>
+    <li class="nav-header">
+        教学管理
+    </li>
+    <li>
+        <a href="{% url 'myadmin_teaching_index' %}"><i class="icon-user"></i> 教学信息</a>
+    </li>
+    <li>
+        <a href="{% url 'myadmin_teaching_add' %}"><i class="icon-cog"></i> 添加教学</a>
+    </li>
+    <li class="divider">
+    </li>
+    <li>
+		<a href="#" id="forget">Help</a>
+		<script type="text/javascript">
+			var btn = document.getElementById("forget");
+			btn.onclick=function(){
+				alert("请联系管理员 李金哲");
+			}
+		</script>
+    </li>
+</ul>
+</div><!-- 侧边导航结束 -->
+
+{% endblock %}
+
+
+{% block mainbody %}                
+<h3>
+课程信息管理
+</h3>
+<form id="edit-profile" action="{% url 'myadmin_subject_insert' %}" class="form-horizontal" method="post">
+{% csrf_token %}
+<fieldset>
+    <legend>添加课程信息</legend>
+    <div class="control-group">
+        <label class="control-label" for="input01">课程号：</label>
+        <div class="controls">
+            <input type="text" name="no" class="input-xlarge" id="input01" value=""  onkeyup="value=value.replace(/[^0-9]/g,'')" onkeydown="value=value.replace(/[^0-9]/g,'')"/>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="input01">课程名：</label>
+        <div class="controls">
+            <input type="text" name="name" class="input-xlarge" id="input01"/>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="input01">学分：</label>
+        <div class="controls">
+            <input type="text" name="score" class="input-xlarge" id="input01"/>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary" onclick="return add()">添加</button> <button type="reset" class="btn">重置</button>
+    </div>
+    <script type="text/javascript">
+        function add() {
+        var msg = "您真的确定要添加吗？\n\n请确认！";
+        if (confirm(msg)==true){
+        return true;
+        }else{
+        return false;
+        }
+        }
+        </script>
+{% endblock %}

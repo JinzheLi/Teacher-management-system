@@ -1,0 +1,74 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="cn">
+	<head>
+		<meta charset="utf-8">
+		<title>网站后台管理</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="{% static 'myadmin/css/bootstrap.min.css' %}" rel="stylesheet">
+		<link href="{% static 'myadmin/css/bootstrap-responsive.min.css' %}" rel="stylesheet">
+		<link href="{% static 'myadmin/css/site.css' %}" rel="stylesheet">
+ <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js" ></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/select2.min.js" ></script>
+
+
+		<!--[if lt IE 9]><script src="{% static 'myadmin/js/html5.js' %}"></script><![endif]-->
+		<style type="text/css">
+			/*input css*/
+			.iInput{
+				position: absolute;
+				width: 99px;
+				height: 16px;
+				left: 1.5px;
+				top: 6px;
+				border-bottom: 0px;
+				border-right: 0px;
+				border-left: 0px;
+				border-top: 0px;
+			}
+        </style>
+	</head>
+
+	<body>
+		<div class="container">
+            <!-- 页头开始 -->
+			<div class="navbar">
+				<div class="navbar-inner">
+					<div class="container">
+						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> <a class="brand" href="#">师资系统后台管理</a>
+						<div class="nav-collapse">
+
+							<ul class="nav pull-right">
+								<li>
+									<a >@{{request.session.adminuser.no}}</a>
+								</li>
+								<li>
+									<a href="{% url 'myadmin_logout' %}">退出</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div><!-- 页头结束-->
+			
+            
+            <div class="row">
+				<div class="span3">
+                    <!-- 侧边导航开始 -->
+
+					{% block nav-list %}
+					{% endblock %}
+				</div>
+				<div class="span9">
+                    <!-- 主体开始 -->
+					{% block mainbody %}
+					{% endblock %}
+                    <!-- 主体结束 -->
+				</div>
+			</div>
+		</div>
+		<script src="{% static 'myadmin/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'myadmin/js/site.js' %}"></script>
+	</body>
+</html>

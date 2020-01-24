@@ -1,0 +1,190 @@
+{% extends "myadmin/base.html" %}
+
+{% block nav-list %}
+
+<div class="well" style="padding: 8px 0;">
+<ul class="nav nav-list">
+    <li class="nav-header">
+        导航栏
+    </li>
+    <li>
+        <a href="{% url 'myadmin_index'%}"><i class="icon-home"></i> 首页</a>
+    </li>
+    <li class="nav-header">
+        管理员
+    </li>
+    <li >
+        <a href="{% url 'myadmin_vip_add' %}"><i class="icon-folder-open"></i> 添加管理员</a>
+    </li>
+    <li>
+
+        <a href="{% url 'myadmin_vip_edit' request.session.adminuser.no %}"><i class="icon-check"></i> 修改密码</a>
+    </li>
+    <li class="nav-header">
+        教师管理
+    </li>
+    <li class="active">
+        <a href="{% url 'myadmin_users_index' %}"><i class="icon-white  icon-folder-open"></i> 教师信息</a>
+    </li>
+    <li  >
+        <a href="{% url 'myadmin_users_add' %}"><i class="icon-check"></i> 添加教师</a>
+    </li>
+    <li class="nav-header">
+        课程管理
+    </li>
+    <li>
+        <a href="{% url 'myadmin_subject_index' %}"><i class="icon-envelope"></i> 课程信息</a>
+    </li>
+    <li>
+        <a href="{% url 'myadmin_subject_add' %}"><i class="icon-file"></i> 添加课程</a>
+    </li>
+    <li class="nav-header">
+        教学管理
+    </li>
+    <li>
+        <a href="{% url 'myadmin_teaching_index' %}"><i class="icon-user"></i> 教学信息</a>
+    </li>
+    <li>
+        <a href="{% url 'myadmin_teaching_add' %}"><i class="icon-cog"></i> 添加教学</a>
+    </li>
+    <li class="divider">
+    </li>
+    <li>
+		<a href="#" id="forget">Help</a>
+		<script type="text/javascript">
+			var btn = document.getElementById("forget");
+			btn.onclick=function(){
+				alert("请联系管理员 李金哲");
+			}
+		</script>
+    </li>
+</ul>
+</div><!-- 侧边导航结束 -->
+
+{% endblock %}
+
+
+{% block mainbody %}
+<h2>
+	教师信息浏览
+</h2>
+<form class="form-inline" action="{% url 'myadmin_users_index' %}" method="get">
+  	<label>教师信息：</label>
+  	<input type="text" name="keyword" value="{{request.GET.keyword}}" class="input-small" placeholder="账号或姓名">
+	<label>学院：</label>
+	<select name="faculty" class="span1" style="width: auto">
+	  	<option value="">全部</option>
+		{% for vo in faculty %}
+			{% if request.GET.faculty == vo.name %}
+				<option value="{{vo.name}}" selected="selected">{{vo.no}}--{{ vo.name }}</option>
+			{% else %}
+				<option value="{{vo.name}}">{{vo.no}}--{{ vo.name }}</option>
+			{% endif %}
+		{% endfor %}
+	</select>
+
+	<label>职称：</label>
+	<select name="position" class="span1" style="width: auto">
+	  	<option value="">全部</option>
+	  	<option value="助教" {% if request.GET.position == '助教' %}selected{% endif %}>助教</option>
+	  	<option value="讲师" {% if request.GET.position == '讲师' %}selected{% endif %}>讲师</option>
+	  	<option value="副教授" {% if request.GET.position == '副教授' %}selected{% endif %}>副教授</option>
+	  	<option value="教授" {% if request.GET.position == '教授' %}selected{% endif %}>教授</option>
+	</select>
+
+	<label>学历：</label>
+	<select name="degree" class="span1" style="width: auto">
+	  	<option value="">全部</option>
+		<option value="专科" {% if request.GET.degree == '专科' %}selected{% endif %}>专科</option>
+		<option value="本科" {% if request.GET.degree == '本科' %}selected{% endif %}>本科</option>
+		<option value="硕士研究生" {% if request.GET.degree == '硕士研究生' %}selected{% endif %}>硕士研究生</option>
+		<option value="博士研究生" {% if request.GET.degree == '博士研究生' %}selected{% endif %}>博士研究生</option>
+	</select>
+
+  	<button type="submit" class="btn">搜索</button>
+  	<a href="{% url 'myadmin_users_index'%}" class="btn">全部</a>
+</form>
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>职工号</th>
+			<th>姓名</th>
+			<th>学院</th>
+			<th>性别</th>
+			<th>年龄</th>
+			<th>职位</th>
+			<th>学历</th>
+			<th>电话</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for vo in userslist %}
+		<tr>
+			<td>{{ vo.no }}</td>
+			<td>{{ vo.name }}</td>
+			<td>{{ vo.fa_name }}</td>
+			<td>{% if vo.sex == '1' %}男{% else %}女{% endif %}</td>
+			<td>{{ vo.age }}</td>
+			<td>{{ vo.position }}</td>
+			<td>{{ vo.degree }}</td>
+			<td>{{ vo.phone }}</td>
+			<td>
+				<a href="{% url 'myadmin_users_edit' vo.no %}" class="btn btn-mini btn-primary">编辑</a>
+				<a href="{% url 'myadmin_users_del' vo.no %}" onclick="return del()" class="btn btn-mini btn-danger">删除</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<script type="text/javascript">
+        function del() {
+        var msg = "您真的确定要删除吗？\n\n请确认！";
+        if (confirm(msg)==true){
+        return true;
+        }else{
+        return false;
+        }
+        }
+        </script>
+<div class="pagination">
+	{% if pIndex > 1 %}
+	<a href="{% url 'myadmin_users_index'%}?{{ mywhere|join:'&' }}&p={{pIndex|add:-1}}">上一页</a>
+	{% endif %}
+	&nbsp;&nbsp;第
+	{% if pIndex > 1|add:2  %}
+		<a href="{% url 'myadmin_users_index'%}?{{ mywhere|join:'&' }}&p=1">1</a>&nbsp;&nbsp;
+		<b>···</b>&nbsp;&nbsp;
+	{% endif %}
+	{% for pindex in plist %}
+		{% if pIndex == pindex %}
+			<b style="color:red">{{pindex}}</b>&nbsp;&nbsp;
+		{% else %}
+			<a href="{% url 'myadmin_users_index'%}?{{ mywhere|join:'&' }}&p={{ pindex }}">{{ pindex }}</a>&nbsp;&nbsp;
+		{% endif %}
+	{% endfor %}
+	{% if pIndex < maxpages|add:-2  %}
+		<b>···</b>&nbsp;&nbsp;
+		<a href="{% url 'myadmin_users_index'%}?{{ mywhere|join:'&' }}&p={{maxpages}}">{{maxpages}}</a>&nbsp;&nbsp;
+	{% endif %}
+	页&nbsp;&nbsp;
+	{% if pIndex < maxpages %}
+	<a href="{% url 'myadmin_users_index'%}?{{ mywhere|join:'&' }}&p={{pIndex|add:1}}">下一页</a>&nbsp;&nbsp;
+	{% endif %}
+	<br/><br/>
+	第 <input type="text" id="txt" style="width: 40px" placeholder="{{pIndex}}"/>/{{maxpages}} 页&nbsp;&nbsp;
+	<input type="button" value="点击跳转" onclick="Cmd()" />
+	<br/><br/>
+
+	<script>
+		function Cmd(){
+			if(!document.getElementById("txt").value){
+				window.location.href = "{% url 'myadmin_users_index'%}?{{ mywhere|join:'&' }}&p={{pIndex}}";
+			}
+			else {
+				window.location.href = "{% url 'myadmin_users_index'%}?{{ mywhere|join:'&' }}&p=" + document.getElementById("txt").value;
+			}
+		}
+	</script>
+</div>
+{% endblock %}

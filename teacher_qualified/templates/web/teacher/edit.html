@@ -1,0 +1,100 @@
+{% extends "web/base.html" %}
+{% block menubody %}
+
+<li>
+    <a href="{% url 'teacher_index' %}" class="active-menu waves-effect waves-dark"><i class="fa fa-edit"></i> 信息修改 </a>
+</li>
+
+<li>
+    <a href="{% url 'teacher_teaching' %}" class="waves-effect waves-dark"><i class="fa fa-table"></i> 课程表</a>
+</li>
+
+{% endblock %}
+
+{% block mainbody %}
+
+<div id="page-wrapper" >
+  <div class="header">
+                <h1 class="page-header">
+                     修改信息
+                </h1>
+                <ol class="breadcrumb">
+              <li><a href="#">教师信息</a></li>
+            </ol>
+
+</div>
+
+    <div id="page-inner">
+     <div class="row">
+         <div class="col-lg-12">
+             <div class="card">
+                        <div class="card-action">
+                            教师信息
+                        </div>
+                 {% for vo in teacher %}
+                 <form action="{% url 'teacher_update' vo.no %}" method="post">
+                     {% csrf_token %}
+
+                        <div class="card-content">
+                            <div class="row" style="height: 60px; border-bottom: black solid;">
+                            <div class="input-field col s6">
+                                <label class="control-label" for="input01" style="color: black">职工号：{{ vo.no }}</label>
+
+                            </div>
+                            <div class="input-field col s6">
+                                <label class="control-label" for="input01" style="color: black">教师姓名：{{ vo.name }}</label>
+                            </div>
+                            </div>
+                              <div class="row">
+                                <div class="input-field col s12">
+                                  <input name="old_password" type="password" class="validate">
+                                  <label for="old_password">登陆密码（必填）</label>
+                                </div>
+                              </div>
+                                <div class="row">
+                                <div class="input-field col s12">
+                                  <input name="password" type="password" class="validate">
+                                  <label for="password">新密码（可不填）</label>
+                                </div>
+                              </div>
+                                <div class="row">
+                                <div class="input-field col s12">
+                                  <input name="repassword" type="password" class="validate">
+                                  <label for="repassword">重复新密码</label>
+                                </div>
+                              </div>
+                                <div class="row">
+                                <div class="input-field col s12">
+                                  <input name="phone" type="text" class="validate">
+                                  <label for="phone">电话号码</label>
+                                </div>
+                              </div>
+
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary" onclick="return save()">保存</button> <button type="reset" class="btn">重置</button>
+                            </div>
+ <script type="text/javascript">
+        function save() {
+        var msg = "您真的确定要保存吗？\n\n请确认！";
+        if (confirm(msg)==true){
+        return true;
+        }else{
+        return false;
+        }
+        }
+        </script>
+
+                        </div>
+                     </form>
+		                    {% endfor %}
+             </div>
+         </div>
+     </div>
+        <!-- /.col-lg-12 -->
+    </div>
+     <!-- /. PAGE INNER  -->
+    </div>
+
+
+{% endblock %}
